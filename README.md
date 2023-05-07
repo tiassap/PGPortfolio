@@ -1,3 +1,15 @@
+Forked from [ZhenyaoJiang/PGPortfolio](https://github.com/ZhengyaoJiang/PGPortfolio) \
+
+## Docker container usage
+```
+./run_docker.sh -b -g
+```
+Use option `-b` to build docker image and `-g` to use GPU.
+
+Reference: see [this page](https://linuxhint.com/use-nvidia-gpu-docker-containers-ubuntu-22-04-lts/#_Toc125512693) for NVIDIA docker installation on Ubuntu.
+
+Note from original [repository](https://github.com/ZhengyaoJiang/PGPortfolio): \
+---
 This is the implementation of our paper, A Deep Reinforcement Learning Framework for the Financial Portfolio Management Problem ([arXiv:1706.10059](https://arxiv.org/abs/1706.10059)), together with a toolkit of portfolio management research.
 
 * The policy optimization method we described in the paper is designed specifically for portfolio management problem.
@@ -16,34 +28,5 @@ Note that this library is a part of our main project, and it is several versions
 * All updates will be incorporated into future versions of the paper.
 * Original versioning history,  and internal discussions, including some in-code comments, are removed in this open-sourced edition. These contains our unimplemented ideas, some of which will very likely become the foundations of our future publications
 
-## Platform Support
-Python 3.5+ in windows and Python 2.7+/3.5+ in linux are supported.
-
-## Dependencies
-Install Dependencies via `pip install -r requirements.txt`
-
-* tensorflow (>= 1.0.0)
-* tflearn
-* pandas
-* ...
-
 ## User Guide
 Please check out [User Guide](user_guide.md)
-
-## Acknowledgement
-This project would not have been finished without using the codes from the following open source projects:
-* [Online Portfolio Selection toolbox](https://github.com/OLPS/OLPS)
-
-## Community Contribution
-We welcome contributions from the community, including but not limited to:
-* Bug fixing
-* Interfacing to other markets such as stock, futures, options
-* Adding broker API (under `marketdata`)
-* More backtest strategies (under `tdagent`)
-
-## Risk Disclaimer (for Live-trading)
-
-There is always risk of loss in trading. **All trading strategies are used at your own risk**
-
-* The project has been open-sourced for many years (since 2017). The market efficiency may have increased quite a lot since then. There is no guarantee the exact same algorithm can still work.
-* Although we tried to make assumptions closer to the situation in the real market, the results are all from backtest on static historical data. The slippage or market impact can always be a problem if you deploy it as a live trading bot.
