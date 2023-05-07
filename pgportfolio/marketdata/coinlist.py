@@ -13,7 +13,7 @@ class CoinList(object):
     def __init__(self, end, volume_average_days=1, volume_forward=0):
         self._polo = Poloniex()
         # connect the internet to accees volumes
-        vol = self._polo.marketVolume()
+        # vol = self._polo.marketVolume()
         ticker = self._polo.marketTicker()
         pairs = []
         coins = []
@@ -25,16 +25,16 @@ class CoinList(object):
                                                            strftime('%Y-%m-%d %H:%M'),
                                                            datetime.fromtimestamp(end-volume_forward).
                                                            strftime('%Y-%m-%d %H:%M')))
-        for k, v in vol.items():
+        for k in ticker.keys():
             if k.startswith("BTC_") or k.endswith("_BTC"):
                 pairs.append(k)
-                for c, val in v.items():
-                    if c != 'BTC':
+                for c_ in k.split("_"):
+                    if c_ != 'BTC':
                         if k.endswith('_BTC'):
-                            coins.append('reversed_' + c)
+                            coins.append('reversed_' + c_)
                             prices.append(1.0 / float(ticker[k]['last']))
                         else:
-                            coins.append(c)
+                            coins.append(c_)
                             prices.append(float(ticker[k]['last']))
                     else:
                         volumes.append(self.__get_total_volume(pair=k, global_end=end,
@@ -66,9 +66,9 @@ class CoinList(object):
         result = 0
         for one_day in chart:
             if pair.startswith("BTC_"):
-                result += one_day['volume']
+                result += float(one_day['volume'])
             else:
-                result += one_day["quoteVolume"]
+                result += float(one_day["quoteVolume"])
         return result
 
 

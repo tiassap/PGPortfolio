@@ -204,21 +204,26 @@ class HistoryManager:
             period=self.__storage_period)
         logging.info("fill %s data from %s to %s"%(coin, datetime.fromtimestamp(start).strftime('%Y-%m-%d %H:%M'),
                                             datetime.fromtimestamp(end).strftime('%Y-%m-%d %H:%M')))
-        for c in chart:
-            if c["date"] > 0:
-                if c['weightedAverage'] == 0:
-                    weightedAverage = c['close']
+        for c_ in chart:
+            for key in c_.keys():
+                try:
+                    c_[key] = float(c_[key])
+                except ValueError:
+                    pass
+            if c_["date"] > 0:
+                if c_['weightedAverage'] == 0:
+                    weightedAverage = c_['close']
                 else:
-                    weightedAverage = c['weightedAverage']
+                    weightedAverage = c_['weightedAverage']
 
                 #NOTE here the USDT is in reversed order
                 if 'reversed_' in coin:
                     cursor.execute('INSERT INTO History VALUES (?,?,?,?,?,?,?,?,?)',
-                        (c['date'],coin,1.0/c['low'],1.0/c['high'],1.0/c['open'],
-                        1.0/c['close'],c['quoteVolume'],c['volume'],
+                        (c_['date'],coin,1.0/c_['low'],1.0/c_['high'],1.0/c_['open'],
+                        1.0/c_['close'],c_['quoteVolume'],c_['volume'],
                         1.0/weightedAverage))
                 else:
                     cursor.execute('INSERT INTO History VALUES (?,?,?,?,?,?,?,?,?)',
-                                   (c['date'],coin,c['high'],c['low'],c['open'],
-                                    c['close'],c['volume'],c['quoteVolume'],
+                                   (c_['date'],coin,c_['high'],c_['low'],c_['open'],
+                                    c_['close'],c_['volume'],c_['quoteVolume'],
                                     weightedAverage))
